@@ -1,5 +1,6 @@
 # GitEasy
 
+
 GitEasy is a shell script that simplifies common Git operations for working with GitHub repositories. Designed to make Git workflow faster and easier, especially for developers who prefer to avoid the complexity of native Git commands.
 
 ## Main Features

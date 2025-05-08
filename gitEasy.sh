@@ -1,6 +1,7 @@
 #!/bin/bash
-# gitrr - Script simplificado para Git
+# GitEasy - Script simplificado para Git
 # Autor: 2R
+
 
 # CONFIGURA AQUÍ TUS DATOS
 DEFAULT_USER="usuarioGit"
@@ -14,8 +15,8 @@ NC='\033[0m' # No Color
 
 # Función para mostrar ayuda
 show_help() {
-  echo -e "${YELLOW}GitRR - Comandos simplificados de Git${NC}"
-  echo "Uso: gitrr [comando]"
+  echo -e "${YELLOW}GitEasy - Comandos simplificados de Git${NC}"
+  echo "Uso: gitEasy [comando]"
   echo ""
   echo "Comandos disponibles:"
   echo "  setup [repo]  - Configura el repositorio por primera vez (ej: miproyecto)"
@@ -453,11 +454,17 @@ setup_repo() {
   # Configura la rama principal
   git branch -M main 2>/dev/null || echo -e "${YELLOW}Nota: No hay commits aún, la rama principal se creará en el primer commit${NC}"
 
-  # Si no hay archivos o commits, crear un README básico
+  # Si no hay archivos o commits, crear un README básico solo si no existe
   if [ -z "$(git rev-parse --verify HEAD 2>/dev/null)" ]; then
-    echo -e "${YELLOW}Creando README.md inicial...${NC}"
-    echo "# $REPO_NAME" > README.md
-    echo "Repositorio creado con gitrr" >> README.md
+    # Solo crear README.md si no existe
+    if [ ! -f "README.md" ]; then
+      echo -e "${YELLOW}Creando README.md inicial...${NC}"
+      echo "# $REPO_NAME" > README.md
+      echo "Repositorio creado con GitEasy" >> README.md
+      echo -e "${GREEN}✓ README.md básico creado${NC}"
+    else
+      echo -e "${YELLOW}Usando README.md existente${NC}"
+    fi
 
     # Añadir README y .gitignore (si existe)
     git add README.md
@@ -484,7 +491,7 @@ setup_repo() {
       echo -e "${YELLOW}Verifica que el repositorio existe en GitHub y que tienes permisos${NC}"
     fi
   else
-    echo -e "${YELLOW}Puedes hacer push más tarde con: gitrr save${NC}"
+    echo -e "${YELLOW}Puedes hacer push más tarde con: gitEasy save${NC}"
   fi
 }
 
@@ -623,7 +630,7 @@ save_changes() {
     fi
   else
     echo -e "${GREEN}✓ Cambios guardados localmente${NC}"
-    echo -e "${YELLOW}Puedes enviarlos más tarde con: gitrr save${NC}"
+    echo -e "${YELLOW}Puedes enviarlos más tarde con: gitEasy save${NC}"
   fi
 }
 
@@ -681,7 +688,7 @@ case "$1" in
     # Verificar si estamos en un repositorio Git
     if [ ! -d ".git" ]; then
       echo -e "${RED}Error: No estás en un repositorio Git${NC}"
-      echo "Primero ejecuta 'gitrr setup [nombre-repo]' para configurar"
+      echo "Primero ejecuta 'gitEasy setup [nombre-repo]' para configurar"
       exit 1
     fi
     save_changes "$@"
@@ -690,7 +697,7 @@ case "$1" in
     # Verificar si estamos en un repositorio Git
     if [ ! -d ".git" ]; then
       echo -e "${RED}Error: No estás en un repositorio Git${NC}"
-      echo "Primero ejecuta 'gitrr setup [nombre-repo]' para configurar"
+      echo "Primero ejecuta 'gitEasy setup [nombre-repo]' para configurar"
       exit 1
     fi
     update_repo
@@ -699,7 +706,7 @@ case "$1" in
     # Verificar si estamos en un repositorio Git
     if [ ! -d ".git" ]; then
       echo -e "${RED}Error: No estás en un repositorio Git${NC}"
-      echo "Primero ejecuta 'gitrr setup [nombre-repo]' para configurar"
+      echo "Primero ejecuta 'gitEasy setup [nombre-repo]' para configurar"
       exit 1
     fi
     shift
@@ -709,7 +716,7 @@ case "$1" in
     # Verificar si estamos en un repositorio Git
     if [ ! -d ".git" ]; then
       echo -e "${RED}Error: No estás en un repositorio Git${NC}"
-      echo "Primero ejecuta 'gitrr setup [nombre-repo]' para configurar"
+      echo "Primero ejecuta 'gitEasy setup [nombre-repo]' para configurar"
       exit 1
     fi
     show_status
@@ -718,7 +725,7 @@ case "$1" in
     # Verificar si estamos en un repositorio Git
     if [ ! -d ".git" ]; then
       echo -e "${RED}Error: No estás en un repositorio Git${NC}"
-      echo "Primero ejecuta 'gitrr setup [nombre-repo]' para configurar"
+      echo "Primero ejecuta 'gitEasy setup [nombre-repo]' para configurar"
       exit 1
     fi
     show_log
